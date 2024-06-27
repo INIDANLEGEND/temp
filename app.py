@@ -55,9 +55,27 @@ st.write("Upload an image, and the application will predict the emotion.")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    try:
-        # Convert the file to an opencv image.
-        file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
+    # try:
+    #     # Convert the file to an opencv image.
+    #     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
+    #     image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+
+    #     # Display the uploaded image
+    #     st.image(image, caption='Uploaded Image', use_column_width=True)
+    #     st.write("k")
+    #     # Predict emotion
+    #     emotion = predict_emotion(image)
+    #     st.write("l")
+    #     # Display the prediction
+    #     if emotion:
+    #         st.write(f"Predicted Emotion: {emotion}")
+    # except Exception as e:
+    #     st.error("An error occurred while processing the image.")
+    #     with open('error_log.txt', 'a') as f:
+    #         f.write(traceback.format_exc())
+
+
+    file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
         image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
 
         # Display the uploaded image
@@ -69,7 +87,3 @@ if uploaded_file is not None:
         # Display the prediction
         if emotion:
             st.write(f"Predicted Emotion: {emotion}")
-    except Exception as e:
-        st.error("An error occurred while processing the image.")
-        with open('error_log.txt', 'a') as f:
-            f.write(traceback.format_exc())
