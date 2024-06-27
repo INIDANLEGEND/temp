@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np
 import cv2
 import tensorflow as tf
-from tensorflow.keras.models import load_model
+from keras.models import load_model
 
 # Load the pre-trained emotion detection model
 model = load_model('ResNet50.h5')
