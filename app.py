@@ -57,10 +57,10 @@ if uploaded_file is not None:
 
         # Display the uploaded image
         st.image(image, caption='Uploaded Image', use_column_width=True)
-        print("k")
+        st.write("k")
         # Predict emotion
         emotion = predict_emotion(image)
-        print("l")
+        st.write("l")
         # Display the prediction
         if emotion:
             st.write(f"Predicted Emotion: {emotion}")
