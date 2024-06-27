@@ -30,7 +30,7 @@ def preprocess_image(image):
     return input_image
 
 def predict_emotion(image):
-    try:
+    # try:
     #     preprocessed_image = preprocess_image(image)
     #     predictions = model.predict(preprocessed_image)
     #     max_index = np.argmax(predictions[0])
