@@ -9,7 +9,7 @@ import sys
 import os
 
 # Redirect sys.stdout to a file to avoid BrokenPipeError
-# sys.stdout = open('/tmp/streamlit_stdout.log', 'w')
+sys.stdout = open('/tmp/streamlit_stdout.log', 'w')
 
 # Define emotion labels
 emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
