@@ -76,14 +76,14 @@ if uploaded_file is not None:
 
 
     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
-        image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+    image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
 
         # Display the uploaded image
-        st.image(image, caption='Uploaded Image', use_column_width=True)
-        st.write("k")
+    st.image(image, caption='Uploaded Image', use_column_width=True)
+    st.write("k")
         # Predict emotion
-        emotion = predict_emotion(image)
-        st.write("l")
+    emotion = predict_emotion(image)
+    st.write("l")
         # Display the prediction
-        if emotion:
-            st.write(f"Predicted Emotion: {emotion}")
+    if emotion:
+        st.write(f"Predicted Emotion: {emotion}")
