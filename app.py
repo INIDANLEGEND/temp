@@ -12,7 +12,7 @@ import os
 sys.stdout = open('/tmp/streamlit_stdout.log', 'w')
 
 # Define emotion labels
-emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
 @st.cache_resource
 def load_emotion_model():
@@ -30,22 +30,11 @@ def preprocess_image(image):
     return input_image
 
 def predict_emotion(image):
-    # try:
-    #     preprocessed_image = preprocess_image(image)
-    #     predictions = model.predict(preprocessed_image)
-    #     max_index = np.argmax(predictions[0])
-    #     emotion = emotion_labels[max_index]
-    #     return emotion
-    # except Exception as e:
-    #     st.error("An error occurred during prediction.")
-    #     with open('error_log.txt', 'a') as f:
-    #         f.write(traceback.format_exc())
-    #     return None
-        preprocessed_image = preprocess_image(image)
-        predictions = model.predict(preprocessed_image)
-        max_index = np.argmax(predictions[0])
-        emotion = emotion_labels[max_index]
-        return emotion
+    preprocessed_image = preprocess_image(image)
+    predictions = model.predict(preprocessed_image)
+    max_index = np.argmax(predictions[0])
+    emotion = emotion_labels[max_index]
+    return emotion
 
 # Streamlit app
 st.title("Emotion Detection from Image")
@@ -55,33 +44,13 @@ st.write("Upload an image, and the application will predict the emotion.")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    # try:
-    #     # Convert the file to an opencv image.
-    #     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
-    #     image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-
-    #     # Display the uploaded image
-    #     st.image(image, caption='Uploaded Image', use_column_width=True)
-    #     st.write("k")
-    #     # Predict emotion
-    #     emotion = predict_emotion(image)
-    #     st.write("l")
-    #     # Display the prediction
-    #     if emotion:
-    #         st.write(f"Predicted Emotion: {emotion}")
-    # except Exception as e:
-    #     st.error("An error occurred while processing the image.")
-    #     with open('error_log.txt', 'a') as f:
-    #         f.write(traceback.format_exc())
-
-
     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
     image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
 
-        # Display the uploaded image
+    # Display the uploaded image
     st.image(image, caption='Uploaded Image', use_column_width=True)
-        # Predict emotion
+    # Predict emotion
     emotion = predict_emotion(image)
-        # Display the prediction
+    # Display the prediction
     if emotion:
         st.write(f"Predicted Emotion: {emotion}")
