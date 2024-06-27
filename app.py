@@ -22,7 +22,14 @@ def preprocess_image(image):
 
 def predict_emotion(image):
     preprocessed_image = preprocess_image(image)
-    predictions = model.predict(preprocessed_image)
+    try:
+        predictions = model.predict(preprocessed_image)
+    except BrokenPipeError as e:
+        st.error("A BrokenPipeError occurred. Please try again.")
+    # Log the error details for further analysis
+    with open('error_log.txt', 'a') as f:
+        f.write(str(e))
+
     max_index = np.argmax(predictions[0])
     emotion = emotion_labels[max_index]
     return emotion
