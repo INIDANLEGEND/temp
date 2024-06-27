@@ -31,16 +31,21 @@ def preprocess_image(image):
 
 def predict_emotion(image):
     try:
+    #     preprocessed_image = preprocess_image(image)
+    #     predictions = model.predict(preprocessed_image)
+    #     max_index = np.argmax(predictions[0])
+    #     emotion = emotion_labels[max_index]
+    #     return emotion
+    # except Exception as e:
+    #     st.error("An error occurred during prediction.")
+    #     with open('error_log.txt', 'a') as f:
+    #         f.write(traceback.format_exc())
+    #     return None
         preprocessed_image = preprocess_image(image)
         predictions = model.predict(preprocessed_image)
         max_index = np.argmax(predictions[0])
         emotion = emotion_labels[max_index]
         return emotion
-    except Exception as e:
-        st.error("An error occurred during prediction.")
-        with open('error_log.txt', 'a') as f:
-            f.write(traceback.format_exc())
-        return None
 
 # Streamlit app
 st.title("Emotion Detection from Image")
