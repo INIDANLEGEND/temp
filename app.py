@@ -27,8 +27,8 @@ def predict_emotion(image):
     except BrokenPipeError as e:
         st.error("A BrokenPipeError occurred. Please try again.")
     # Log the error details for further analysis
-    with open('error_log.txt', 'a') as f:
-        f.write(str(e))
+        with open('error_log.txt', 'a') as f:
+            f.write(str(e))
 
     max_index = np.argmax(predictions[0])
     emotion = emotion_labels[max_index]
