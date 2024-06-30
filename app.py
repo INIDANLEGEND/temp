@@ -8,9 +8,6 @@ import traceback
 import sys
 import os
 
-# Redirect sys.stdout to a file to avoid BrokenPipeError
-sys.stdout = open('/tmp/streamlit_stdout.log', 'w')
-
 # Define emotion labels
 emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
@@ -30,11 +27,20 @@ def preprocess_image(image):
     return input_image
 
 def predict_emotion(image):
-    preprocessed_image = preprocess_image(image)
-    predictions = model.predict(preprocessed_image)
-    max_index = np.argmax(predictions[0])
-    emotion = emotion_labels[max_index]
-    return emotion
+    try:
+        preprocessed_image = preprocess_image(image)
+        predictions = model.predict(preprocessed_image)
+        max_index = np.argmax(predictions[0])
+        emotion = emotion_labels[max_index]
+        return emotion
+    except Exception as e:
+        st.error("An error occurred during prediction.")
+        with open('error_log.txt', 'a') as f:
+            f.write(traceback.format_exc())
+        return None
+
+# Load OpenCV face detector
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 # Streamlit app
 st.title("Emotion Detection from Image")
@@ -54,3 +60,33 @@ if uploaded_file is not None:
     # Display the prediction
     if emotion:
         st.write(f"Predicted Emotion: {emotion}")
+
+# Live image capture
+st.write("Or capture a live video using your webcam:")
+
+start_capture = st.button("Start Video Capture")
+stop_capture = st.button("Stop Video Capture")
+
+if start_capture:
+    cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        st.error("Could not open webcam.")
+    else:
+        stframe = st.empty()
+        while True:
+            ret, frame = cap.read()
+            if ret:
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+
+                for (x, y, w, h) in faces:
+                    face = frame[y:y+h, x:x+w]
+                    emotion = predict_emotion(face)
+                    cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+                    cv2.putText(frame, emotion, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+                
+                stframe.image(frame, channels="BGR")
+
+            if stop_capture:
+                break
+        cap.release()
