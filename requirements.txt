@@ -48,7 +48,7 @@ rpds-py==0.18.1
 six==1.16.0
 smmap==5.0.1
 streamlit==1.36.0
-streamlit-webrtc==0.47.4
+streamlit-webrtc==0.47.7
 tenacity==8.4.2
 tensorboard==2.16.2
 tensorboard-data-server==0.7.2
